@@ -13,14 +13,14 @@ frameCount = 0 #devide by framerate for seconds
 oldSum = 0
 
 while(videoFile.isOpened()):
-    frameCount += 1
     ret, frame = videoFile.read()
     if ret == True:
+        frameCount += 1
         newSum = 0
         height, width = frame.shape[:2]
-        for x in range(width):
-            for y in range(height):
-                newSum += frame[x, y][0] + frame[x, y][1] + frame[x, y][2]
-        if(abs(newSum - oldSum) > 100):
-            print(frameCount / 40)
+        for x in range(width / 400):
+            for y in range(height / 400):
+                newSum += sum(frame[y*400,x*400])
+        if(abs(newSum - oldSum) > 10):
+            print("Change at second " + str(frameCount / frameRate))
         oldSum = 0
