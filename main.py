@@ -1,15 +1,15 @@
 import cv2
 import numpy as np
 
-path = raw_input("Path: ")
-sesitivity = int(raw_input("Sensitivity: "))
-divisor = int(raw_input("Grid divisor: "))
+path = input("Path: ")
+sesitivity = int(input("Sensitivity: "))
+divisor = int(input("Grid divisor: "))
 
 
 videoFile = cv2.VideoCapture(path)
 
 if(videoFile.isOpened() == False):
-    print "FAIL"
+    print("FAIL")
 
 fps = videoFile.get(cv2.CAP_PROP_FPS)
 frameCount = 0 #devide by framerate for seconds
@@ -23,7 +23,7 @@ if ret == True:
     yDivision = y / divisor
     for x in range(divisor):
         for y in range(divisor):
-            oldSum += sum(frame[x * xDivision, y * yDivision])
+            oldSum += sum(frame[int(x * xDivision), int(y * yDivision)])
 
 while(videoFile.isOpened()):
     ret, frame = videoFile.read()
@@ -32,9 +32,9 @@ while(videoFile.isOpened()):
         newSum = 0
         for x in range(divisor):
             for y in range(divisor):
-                newSum += sum(frame[x * xDivision, y * yDivision])
+                newSum += sum(frame[int(x * xDivision), int(y * yDivision)])
         if(abs(newSum - oldSum) > sesitivity):
-            print("Change at second " + str(frameCount / fps))
+            print("Change at second " + str(int(frameCount / fps)))
         oldSum = newSum
     else:
         quit()
